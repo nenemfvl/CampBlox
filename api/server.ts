@@ -319,6 +319,44 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Test endpoint para verificar conexão com banco
+app.get('/api/test-db', async (req, res) => {
+  try {
+    const client = await pool.connect();
+    
+    // Testar conexão
+    const result = await client.query(`
+      SELECT table_name 
+      FROM information_schema.tables 
+      WHERE table_schema = 'public' 
+      ORDER BY table_name;
+    `);
+    
+    // Contar registros
+    const gamesCount = await client.query('SELECT COUNT(*) FROM games');
+    const tournamentsCount = await client.query('SELECT COUNT(*) FROM tournaments');
+    
+    client.release();
+    
+    res.json({
+      status: 'OK',
+      message: 'Database connection successful',
+      tables: result.rows.map(row => row.table_name),
+      data: {
+        games: parseInt(gamesCount.rows[0].count),
+        tournaments: parseInt(tournamentsCount.rows[0].count)
+      }
+    });
+    
+  } catch (error) {
+    res.status(500).json({
+      status: 'ERROR',
+      message: 'Database connection failed',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
 // Iniciar servidor
 app.listen(PORT, () => {
   console.log(`🚀 Servidor CampBlox rodando na porta ${PORT}`);
