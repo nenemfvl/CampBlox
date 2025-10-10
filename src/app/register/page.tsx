@@ -18,7 +18,7 @@ export default function RegisterPage() {
   const [error, setError] = useState('')
   
   const router = useRouter()
-  const { login } = useAuth()
+  const { register } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -48,8 +48,8 @@ export default function RegisterPage() {
         createdAt: new Date().toISOString()
       }
 
-      // Fazer login automaticamente após registro
-      login(newUser)
+      // Fazer registro e login automático
+      register(newUser)
       
       // Redirecionar para a página inicial
       router.push('/')

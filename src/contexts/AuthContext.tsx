@@ -12,6 +12,7 @@ interface User {
 interface AuthContextType {
   user: User | null
   login: (email: string, password: string) => Promise<boolean>
+  register: (userData: User) => void
   logout: () => void
   isLoading: boolean
 }
@@ -82,13 +83,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const register = (userData: User) => {
+    setUser(userData)
+    localStorage.setItem('user', JSON.stringify(userData))
+  }
+
   const logout = () => {
     setUser(null)
     localStorage.removeItem('user')
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, login, register, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   )
