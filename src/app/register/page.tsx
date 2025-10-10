@@ -41,11 +41,10 @@ export default function RegisterPage() {
     try {
       // Simular registro (em um sistema real, isso seria uma chamada para a API)
       const newUser = {
-        id: Date.now(),
+        id: Date.now().toString(),
         username: formData.username,
         email: formData.email,
-        avatar: null,
-        createdAt: new Date().toISOString()
+        avatar: undefined
       }
 
       // Fazer registro e login automático
