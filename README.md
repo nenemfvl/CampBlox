@@ -45,14 +45,24 @@ npm run dev
 - **/games** - Jogos suportados na plataforma
 - **/ranking** - Ranking global de jogadores
 
-## 🎯 Próximas Funcionalidades
+## 🎯 Funcionalidades Implementadas
 
-- [ ] Sistema de autenticação
+- [x] **Sistema de autenticação completo** - Login e registro funcionais
+- [x] **Backend API** - Node.js + Express + PostgreSQL
+- [x] **Banco de dados** - PostgreSQL com tabelas de usuários, jogos e campeonatos
+- [x] **Deploy completo** - Frontend no Vercel, Backend no Railway
+- [x] **Integração real** - Frontend conectado com API e banco de dados
+- [x] **Páginas dinâmicas** - Dados reais carregados do banco
+- [x] **Sistema de temas** - Modo claro/escuro
+- [x] **Responsivo** - Funciona em desktop e mobile
+
+## 🚀 Próximas Funcionalidades
+
 - [ ] Página de detalhes do campeonato
-- [ ] Perfil do usuário
 - [ ] Sistema de inscrição em campeonatos
 - [ ] Integração com API do Roblox
 - [ ] Sistema de pagamentos
+- [ ] Chat em tempo real
 
 ## 🤝 Contribuindo
 
