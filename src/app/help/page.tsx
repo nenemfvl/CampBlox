@@ -15,7 +15,7 @@ export default function HelpPage() {
               <p className="text-gray-300">
                 1. Navegue até a página de Campeonatos<br/>
                 2. Escolha um campeonato que lhe interesse<br/>
-                3. Clique em "Inscrever-se"<br/>
+                3. Clique em &quot;Inscrever-se&quot;<br/>
                 4. Aguarde a confirmação
               </p>
             </div>
@@ -23,7 +23,7 @@ export default function HelpPage() {
             <div>
               <h3 className="text-xl font-semibold text-white mb-2">Como criar uma conta?</h3>
               <p className="text-gray-300">
-                Clique em "Entrar" no canto superior direito e siga as instruções.
+                Clique em &quot;Entrar&quot; no canto superior direito e siga as instruções.
               </p>
             </div>
             
