@@ -1,7 +1,66 @@
+'use client'
+
 import Link from 'next/link'
 import { Trophy, Users, Calendar, Clock, Play, Filter, Search } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { apiService, Tournament } from '@/lib/api'
 
 export default function TournamentsPage() {
+  const [tournaments, setTournaments] = useState<Tournament[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchTournaments = async () => {
+      try {
+        setLoading(true)
+        const data = await apiService.getTournaments()
+        setTournaments(data)
+      } catch (err) {
+        setError('Erro ao carregar campeonatos')
+        console.error('Error fetching tournaments:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchTournaments()
+  }, [])
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'active': return 'bg-green-500'
+      case 'upcoming': return 'bg-orange-500'
+      case 'completed': return 'bg-gray-500'
+      default: return 'bg-gray-500'
+    }
+  }
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'active': return 'Ao vivo'
+      case 'upcoming': return 'Em breve'
+      case 'completed': return 'Finalizado'
+      default: return 'Em breve'
+    }
+  }
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+  }
+
+  const formatCurrency = (value: string) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(parseFloat(value))
+  }
   return (
     <div className="min-h-screen bg-gray-900 dark:bg-gray-900">
       {/* Hero Section */}
@@ -50,148 +109,67 @@ export default function TournamentsPage() {
       {/* Tournaments Grid */}
       <section className="py-8 bg-gray-900 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Tournament Card 1 */}
-            <div className="bg-gray-800 rounded-xl overflow-hidden hover:bg-gray-750 transition-colors">
-              <div className="h-48 bg-gradient-to-br from-red-500 to-pink-600 flex items-center justify-center">
-                <Trophy className="h-16 w-16 text-white opacity-80" />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    Arsenal
-                  </span>
-                  <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    Ao vivo
-                  </span>
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">
-                  Arsenal Championship 2025
-                </h3>
-                <p className="text-gray-300 mb-4">
-                  Torneio de eliminação com os melhores jogadores de Arsenal. Competição acirrada com prêmios incríveis.
-                </p>
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Users className="h-4 w-4 mr-2" />
-                    128/256 jogadores inscritos
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    Início: 15/01/2025 às 20:00
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Clock className="h-4 w-4 mr-2" />
-                    Duração: 3 horas
-                  </div>
-                </div>
-                <div className="flex justify-between items-center mb-4">
-                  <div className="text-2xl font-bold text-green-400">R$ 5.000</div>
-                  <div className="text-sm bg-gray-700 text-gray-300 px-3 py-1 rounded-full">
-                    Eliminação simples
-                  </div>
-                </div>
-                <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors">
-                  <Play className="h-4 w-4 inline mr-2" />
-                  Participar
-                </button>
-              </div>
+          {loading ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
             </div>
-
-            {/* Tournament Card 2 */}
-            <div className="bg-gray-800 rounded-xl overflow-hidden hover:bg-gray-750 transition-colors">
-              <div className="h-48 bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center">
-                <Trophy className="h-16 w-16 text-white opacity-80" />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    Blox Fruits
-                  </span>
-                  <span className="bg-gray-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    Em breve
-                  </span>
-                </div>
-                <h3 className="text-xl font-bold text-white mb-2">
-                  Blox Fruits PvP Masters
-                </h3>
-                <p className="text-gray-300 mb-4">
-                  Competição de PvP com os frutos mais poderosos. Mostre sua habilidade em combate.
-                </p>
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Users className="h-4 w-4 mr-2" />
-                    64/128 jogadores inscritos
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    Início: 20/01/2025 às 19:00
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Clock className="h-4 w-4 mr-2" />
-                    Duração: 4 horas
-                  </div>
-                </div>
-                <div className="flex justify-between items-center mb-4">
-                  <div className="text-2xl font-bold text-green-400">R$ 3.000</div>
-                  <div className="text-sm bg-gray-700 text-gray-300 px-3 py-1 rounded-full">
-                    Round Robin
-                  </div>
-                </div>
-                <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors">
-                  <Play className="h-4 w-4 inline mr-2" />
-                  Inscrever-se
-                </button>
-              </div>
+          ) : error ? (
+            <div className="text-center py-12">
+              <p className="text-red-400 text-lg">{error}</p>
             </div>
-
-            {/* Tournament Card 3 */}
-            <div className="bg-gray-800 rounded-xl overflow-hidden hover:bg-gray-750 transition-colors">
-              <div className="h-48 bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
-                <Trophy className="h-16 w-16 text-white opacity-80" />
-              </div>
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    Adopt Me
-                  </span>
-                  <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    Registros abertos
-                  </span>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {tournaments.map((tournament) => (
+                <div key={tournament.id} className="bg-gray-800 rounded-xl overflow-hidden hover:bg-gray-750 transition-colors">
+                  <div className="h-48 bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center">
+                    <Trophy className="h-16 w-16 text-white opacity-80" />
+                  </div>
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                        {tournament.game_name || 'Jogo'}
+                      </span>
+                      <span className={`${getStatusColor(tournament.status)} text-white px-3 py-1 rounded-full text-sm font-medium`}>
+                        {getStatusText(tournament.status)}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">
+                      {tournament.name}
+                    </h3>
+                    <p className="text-gray-300 mb-4">
+                      {tournament.description}
+                    </p>
+                    <div className="space-y-2 mb-4">
+                      <div className="flex items-center text-sm text-gray-400">
+                        <Users className="h-4 w-4 mr-2" />
+                        {tournament.current_participants}/{tournament.max_participants} jogadores inscritos
+                      </div>
+                      <div className="flex items-center text-sm text-gray-400">
+                        <Calendar className="h-4 w-4 mr-2" />
+                        Início: {formatDate(tournament.start_date)}
+                      </div>
+                      <div className="flex items-center text-sm text-gray-400">
+                        <Clock className="h-4 w-4 mr-2" />
+                        Fim: {formatDate(tournament.end_date)}
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center mb-4">
+                      <div className="text-2xl font-bold text-green-400">
+                        {formatCurrency(tournament.prize_pool)}
+                      </div>
+                      <div className="text-sm bg-gray-700 text-gray-300 px-3 py-1 rounded-full">
+                        {tournament.format}
+                      </div>
+                    </div>
+                    <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors">
+                      <Play className="h-4 w-4 inline mr-2" />
+                      {tournament.status === 'active' ? 'Participar' : 'Inscrever-se'}
+                    </button>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">
-                  Adopt Me Pet Show
-                </h3>
-                <p className="text-gray-300 mb-4">
-                  Mostre seus pets mais raros e ganhe prêmios incríveis. Competição de beleza e raridade.
-                </p>
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Users className="h-4 w-4 mr-2" />
-                    32/64 jogadores inscritos
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    Início: 25/01/2025 às 18:00
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Clock className="h-4 w-4 mr-2" />
-                    Duração: 2 horas
-                  </div>
-                </div>
-                <div className="flex justify-between items-center mb-4">
-                  <div className="text-2xl font-bold text-green-400">R$ 2.000</div>
-                  <div className="text-sm bg-gray-700 text-gray-300 px-3 py-1 rounded-full">
-                    Avaliação por juízes
-                  </div>
-                </div>
-                <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors">
-                  <Play className="h-4 w-4 inline mr-2" />
-                  Inscrever-se
-                </button>
-              </div>
+              ))}
             </div>
-          </div>
+          )}
         </div>
       </section>
     </div>

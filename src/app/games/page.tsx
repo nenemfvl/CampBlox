@@ -1,7 +1,31 @@
+'use client'
+
 import Link from 'next/link'
 import { Gamepad2, Users, Trophy, Star, Play, Search, Filter } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { apiService, Game } from '@/lib/api'
 
 export default function GamesPage() {
+  const [games, setGames] = useState<Game[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchGames = async () => {
+      try {
+        setLoading(true)
+        const data = await apiService.getGames()
+        setGames(data)
+      } catch (err) {
+        setError('Erro ao carregar jogos')
+        console.error('Error fetching games:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchGames()
+  }, [])
   return (
     <div className="min-h-screen bg-gray-900 dark:bg-gray-900">
       {/* Hero Section */}
@@ -51,255 +75,49 @@ export default function GamesPage() {
       {/* Games Grid */}
       <section className="py-8 bg-gray-900 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Game Card 1 - Arsenal */}
-            <div className="bg-gray-800 rounded-xl overflow-hidden hover:bg-gray-750 transition-colors">
-              <div className="h-48 bg-gradient-to-br from-red-500 to-pink-600 flex items-center justify-center">
-                <Gamepad2 className="h-16 w-16 text-white opacity-80" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2">Arsenal</h3>
-                <p className="text-gray-300 mb-4">
-                  FPS competitivo com armas únicas e mecânicas inovadoras
-                </p>
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Users className="h-4 w-4 mr-2" />
-                    2.5M+ jogadores
+          {loading ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+            </div>
+          ) : error ? (
+            <div className="text-center py-12">
+              <p className="text-red-400 text-lg">{error}</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {games.map((game) => (
+                <div key={game.id} className="bg-gray-800 rounded-xl overflow-hidden hover:bg-gray-750 transition-colors">
+                  <div className="h-48 bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center">
+                    <Gamepad2 className="h-16 w-16 text-white opacity-80" />
                   </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Trophy className="h-4 w-4 mr-2" />
-                    15 campeonatos ativos
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Star className="h-4 w-4 mr-2" />
-                    4.8/5 avaliação
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-white mb-2">{game.name}</h3>
+                    <p className="text-gray-300 mb-4">
+                      {game.description}
+                    </p>
+                    <div className="space-y-2 mb-4">
+                      <div className="flex items-center text-sm text-gray-400">
+                        <Users className="h-4 w-4 mr-2" />
+                        {game.category}
+                      </div>
+                      <div className="flex items-center text-sm text-gray-400">
+                        <Trophy className="h-4 w-4 mr-2" />
+                        Campeonatos disponíveis
+                      </div>
+                      <div className="flex items-center text-sm text-gray-400">
+                        <Star className="h-4 w-4 mr-2" />
+                        Jogo popular
+                      </div>
+                    </div>
+                    <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors">
+                      <Play className="h-4 w-4 inline mr-2" />
+                      Ver Campeonatos
+                    </button>
                   </div>
                 </div>
-                <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors">
-                  <Play className="h-4 w-4 inline mr-2" />
-                  Ver Campeonatos
-                </button>
-              </div>
+              ))}
             </div>
-
-            {/* Game Card 2 - Blox Fruits */}
-            <div className="bg-gray-800 rounded-xl overflow-hidden hover:bg-gray-750 transition-colors">
-              <div className="h-48 bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center">
-                <Gamepad2 className="h-16 w-16 text-white opacity-80" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2">Blox Fruits</h3>
-                <p className="text-gray-300 mb-4">
-                  RPG de aventura com frutos do diabo e combate épico
-                </p>
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Users className="h-4 w-4 mr-2" />
-                    1.8M+ jogadores
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Trophy className="h-4 w-4 mr-2" />
-                    12 campeonatos ativos
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Star className="h-4 w-4 mr-2" />
-                    4.7/5 avaliação
-                  </div>
-                </div>
-                <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors">
-                  <Play className="h-4 w-4 inline mr-2" />
-                  Ver Campeonatos
-                </button>
-              </div>
-            </div>
-
-            {/* Game Card 3 - Adopt Me */}
-            <div className="bg-gray-800 rounded-xl overflow-hidden hover:bg-gray-750 transition-colors">
-              <div className="h-48 bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
-                <Gamepad2 className="h-16 w-16 text-white opacity-80" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2">Adopt Me</h3>
-                <p className="text-gray-300 mb-4">
-                  Simulação de adoção de pets com coleção e customização
-                </p>
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Users className="h-4 w-4 mr-2" />
-                    3.2M+ jogadores
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Trophy className="h-4 w-4 mr-2" />
-                    8 campeonatos ativos
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Star className="h-4 w-4 mr-2" />
-                    4.9/5 avaliação
-                  </div>
-                </div>
-                <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors">
-                  <Play className="h-4 w-4 inline mr-2" />
-                  Ver Campeonatos
-                </button>
-              </div>
-            </div>
-
-            {/* Game Card 4 - Jailbreak */}
-            <div className="bg-gray-800 rounded-xl overflow-hidden hover:bg-gray-750 transition-colors">
-              <div className="h-48 bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center">
-                <Gamepad2 className="h-16 w-16 text-white opacity-80" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2">Jailbreak</h3>
-                <p className="text-gray-300 mb-4">
-                  Simulação de crime e polícia com perseguições épicas
-                </p>
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Users className="h-4 w-4 mr-2" />
-                    1.5M+ jogadores
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Trophy className="h-4 w-4 mr-2" />
-                    6 campeonatos ativos
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Star className="h-4 w-4 mr-2" />
-                    4.6/5 avaliação
-                  </div>
-                </div>
-                <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors">
-                  <Play className="h-4 w-4 inline mr-2" />
-                  Ver Campeonatos
-                </button>
-              </div>
-            </div>
-
-            {/* Game Card 5 - Brookhaven */}
-            <div className="bg-gray-800 rounded-xl overflow-hidden hover:bg-gray-750 transition-colors">
-              <div className="h-48 bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center">
-                <Gamepad2 className="h-16 w-16 text-white opacity-80" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2">Brookhaven</h3>
-                <p className="text-gray-300 mb-4">
-                  Roleplay livre com casas, carros e interações sociais
-                </p>
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Users className="h-4 w-4 mr-2" />
-                    2.1M+ jogadores
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Trophy className="h-4 w-4 mr-2" />
-                    4 campeonatos ativos
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Star className="h-4 w-4 mr-2" />
-                    4.5/5 avaliação
-                  </div>
-                </div>
-                <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors">
-                  <Play className="h-4 w-4 inline mr-2" />
-                  Ver Campeonatos
-                </button>
-              </div>
-            </div>
-
-            {/* Game Card 6 - Tower Defense */}
-            <div className="bg-gray-800 rounded-xl overflow-hidden hover:bg-gray-750 transition-colors">
-              <div className="h-48 bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center">
-                <Gamepad2 className="h-16 w-16 text-white opacity-80" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2">Tower Defense</h3>
-                <p className="text-gray-300 mb-4">
-                  Estratégia com torres e ondas de inimigos desafiadoras
-                </p>
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Users className="h-4 w-4 mr-2" />
-                    800K+ jogadores
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Trophy className="h-4 w-4 mr-2" />
-                    3 campeonatos ativos
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Star className="h-4 w-4 mr-2" />
-                    4.4/5 avaliação
-                  </div>
-                </div>
-                <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors">
-                  <Play className="h-4 w-4 inline mr-2" />
-                  Ver Campeonatos
-                </button>
-              </div>
-            </div>
-
-            {/* Game Card 7 - Pet Simulator */}
-            <div className="bg-gray-800 rounded-xl overflow-hidden hover:bg-gray-750 transition-colors">
-              <div className="h-48 bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center">
-                <Gamepad2 className="h-16 w-16 text-white opacity-80" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2">Pet Simulator</h3>
-                <p className="text-gray-300 mb-4">
-                  Simulação de pets com evolução e coleção infinita
-                </p>
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Users className="h-4 w-4 mr-2" />
-                    1.2M+ jogadores
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Trophy className="h-4 w-4 mr-2" />
-                    5 campeonatos ativos
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Star className="h-4 w-4 mr-2" />
-                    4.3/5 avaliação
-                  </div>
-                </div>
-                <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors">
-                  <Play className="h-4 w-4 inline mr-2" />
-                  Ver Campeonatos
-                </button>
-              </div>
-            </div>
-
-            {/* Game Card 8 - Royale High */}
-            <div className="bg-gray-800 rounded-xl overflow-hidden hover:bg-gray-750 transition-colors">
-              <div className="h-48 bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
-                <Gamepad2 className="h-16 w-16 text-white opacity-80" />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2">Royale High</h3>
-                <p className="text-gray-300 mb-4">
-                  RPG de fantasia com escola mágica e customização
-                </p>
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Users className="h-4 w-4 mr-2" />
-                    1.9M+ jogadores
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Trophy className="h-4 w-4 mr-2" />
-                    7 campeonatos ativos
-                  </div>
-                  <div className="flex items-center text-sm text-gray-400">
-                    <Star className="h-4 w-4 mr-2" />
-                    4.7/5 avaliação
-                  </div>
-                </div>
-                <button className="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors">
-                  <Play className="h-4 w-4 inline mr-2" />
-                  Ver Campeonatos
-                </button>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </section>
     </div>
