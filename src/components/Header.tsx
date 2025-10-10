@@ -2,13 +2,15 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { Menu, X, Trophy, User, LogIn, Sun, Moon } from 'lucide-react'
+import { Menu, X, Trophy, User, LogIn, Sun, Moon, LogOut, Settings } from 'lucide-react'
 import { useTheme } from '@/contexts/ThemeContext'
+import { useAuth } from '@/contexts/AuthContext'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const [showUserMenu, setShowUserMenu] = useState(false)
   
   // Safe theme access
   let theme: 'light' | 'dark' = 'light'
@@ -21,6 +23,19 @@ export default function Header() {
   } catch (error) {
     // ThemeProvider not available during SSR
     console.warn('ThemeProvider not available during SSR')
+  }
+
+  // Safe auth access
+  let user = null
+  let logout: () => void = () => {}
+  
+  try {
+    const authContext = useAuth()
+    user = authContext.user
+    logout = authContext.logout
+  } catch (error) {
+    // AuthProvider not available during SSR
+    console.warn('AuthProvider not available during SSR')
   }
 
   useEffect(() => {
@@ -95,13 +110,63 @@ export default function Header() {
               </button>
             )}
             
-            <button className="text-white hover:text-purple-200 transition-colors">
-              <User className="h-5 w-5" />
-            </button>
-            <button className="bg-white text-purple-600 px-4 py-2 rounded-lg font-medium hover:bg-purple-50 transition-colors">
-              <LogIn className="h-4 w-4 inline mr-2" />
-              Entrar
-            </button>
+            {user ? (
+              /* User Menu */
+              <div className="relative">
+                <button 
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex items-center space-x-2 text-white hover:text-purple-200 transition-colors"
+                >
+                  <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-medium text-white">
+                      {user.username.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                  <span className="text-sm font-medium">{user.username}</span>
+                </button>
+                
+                {showUserMenu && (
+                  <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-lg border border-gray-700 py-1 z-50">
+                    <Link 
+                      href="/profile" 
+                      className="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 transition-colors"
+                      onClick={() => setShowUserMenu(false)}
+                    >
+                      <User className="h-4 w-4 mr-2" />
+                      Perfil
+                    </Link>
+                    <Link 
+                      href="/settings" 
+                      className="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 transition-colors"
+                      onClick={() => setShowUserMenu(false)}
+                    >
+                      <Settings className="h-4 w-4 mr-2" />
+                      Configurações
+                    </Link>
+                    <hr className="my-1 border-gray-700" />
+                    <button 
+                      onClick={() => {
+                        logout()
+                        setShowUserMenu(false)
+                      }}
+                      className="flex items-center w-full px-4 py-2 text-sm text-red-400 hover:bg-gray-700 transition-colors"
+                    >
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Sair
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* Login Button */
+              <Link 
+                href="/login"
+                className="bg-white text-purple-600 px-4 py-2 rounded-lg font-medium hover:bg-purple-50 transition-colors"
+              >
+                <LogIn className="h-4 w-4 inline mr-2" />
+                Entrar
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -153,14 +218,52 @@ export default function Header() {
                   </button>
                 )}
                 
-                <button className="w-full text-left text-white hover:text-purple-200 transition-colors mb-2">
-                  <User className="h-4 w-4 inline mr-2" />
-                  Perfil
-                </button>
-                <button className="w-full bg-white text-purple-600 px-4 py-2 rounded-lg font-medium hover:bg-purple-50 transition-colors">
-                  <LogIn className="h-4 w-4 inline mr-2" />
-                  Entrar
-                </button>
+                {user ? (
+                  /* User Menu Mobile */
+                  <>
+                    <div className="flex items-center mb-4">
+                      <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center mr-3">
+                        <span className="text-sm font-medium text-white">
+                          {user.username.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <div>
+                        <div className="text-white font-medium">{user.username}</div>
+                        <div className="text-gray-400 text-sm">{user.email}</div>
+                      </div>
+                    </div>
+                    <Link 
+                      href="/profile" 
+                      className="w-full text-left text-white hover:text-purple-200 transition-colors mb-2 block"
+                    >
+                      <User className="h-4 w-4 inline mr-2" />
+                      Perfil
+                    </Link>
+                    <Link 
+                      href="/settings" 
+                      className="w-full text-left text-white hover:text-purple-200 transition-colors mb-2 block"
+                    >
+                      <Settings className="h-4 w-4 inline mr-2" />
+                      Configurações
+                    </Link>
+                    <button 
+                      onClick={logout}
+                      className="w-full text-left text-red-400 hover:text-red-300 transition-colors mb-2"
+                    >
+                      <LogOut className="h-4 w-4 inline mr-2" />
+                      Sair
+                    </button>
+                  </>
+                ) : (
+                  /* Login Button Mobile */
+                  <Link 
+                    href="/login"
+                    className="w-full bg-white text-purple-600 px-4 py-2 rounded-lg font-medium hover:bg-purple-50 transition-colors inline-block text-center"
+                  >
+                    <LogIn className="h-4 w-4 inline mr-2" />
+                    Entrar
+                  </Link>
+                )}
               </div>
             </nav>
           </div>
