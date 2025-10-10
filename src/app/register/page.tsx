@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { User, Mail, Lock, Eye, EyeOff, LogIn } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
+import { apiService } from '@/lib/api'
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -39,21 +40,28 @@ export default function RegisterPage() {
     }
 
     try {
-      // Simular registro (em um sistema real, isso seria uma chamada para a API)
-      const newUser = {
-        id: Date.now().toString(),
+      // Chamar API real para registro
+      const userData = await apiService.registerUser({
         username: formData.username,
         email: formData.email,
+        password: formData.password
+      })
+
+      // Criar objeto de usuário para o contexto
+      const newUser = {
+        id: userData.id,
+        username: userData.username,
+        email: userData.email,
         avatar: undefined
       }
 
-      // Fazer registro e login automático
+      // Fazer login automático
       register(newUser)
       
       // Redirecionar para a página inicial
       router.push('/')
     } catch (err) {
-      setError('Erro ao criar conta. Tente novamente.')
+      setError(err instanceof Error ? err.message : 'Erro ao criar conta. Tente novamente.')
     } finally {
       setLoading(false)
     }

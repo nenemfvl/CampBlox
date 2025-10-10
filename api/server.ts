@@ -310,6 +310,73 @@ app.post('/api/tournaments/:id/join', async (req, res) => {
   }
 });
 
+// POST /api/register - Registrar novo usuário
+app.post('/api/register', async (req, res) => {
+  try {
+    const { username, email, password } = req.body;
+
+    // Validações básicas
+    if (!username || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Todos os campos são obrigatórios'
+      });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: 'A senha deve ter pelo menos 6 caracteres'
+      });
+    }
+
+    // Verificar se email já existe
+    const existingUser = await pool.query(
+      'SELECT id FROM users WHERE email = $1',
+      [email]
+    );
+
+    if (existingUser.rows.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email já está em uso'
+      });
+    }
+
+    // Hash da senha (em produção, use bcrypt)
+    const passwordHash = Buffer.from(password).toString('base64');
+
+    // Inserir novo usuário
+    const result = await pool.query(
+      `INSERT INTO users (username, email, password_hash, points, wins, games_played, created_at) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7) 
+       RETURNING id, username, email, points, wins, games_played, created_at`,
+      [username, email, passwordHash, 0, 0, 0, new Date()]
+    );
+
+    res.status(201).json({
+      success: true,
+      message: 'Usuário registrado com sucesso',
+      data: {
+        id: result.rows[0].id.toString(),
+        username: result.rows[0].username,
+        email: result.rows[0].email,
+        points: result.rows[0].points,
+        wins: result.rows[0].wins,
+        games_played: result.rows[0].games_played,
+        created_at: result.rows[0].created_at
+      }
+    });
+
+  } catch (error) {
+    console.error('Erro ao registrar usuário:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+});
+
 // Rota de health check
 app.get('/api/health', (req, res) => {
   res.json({

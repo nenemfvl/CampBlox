@@ -90,6 +90,34 @@ class ApiService {
   async getHealth(): Promise<any> {
     return this.fetchData<any>('/health');
   }
+
+  // Register user
+  async registerUser(userData: { username: string; email: string; password: string }): Promise<any> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (!data.success) {
+        throw new Error(data.message || 'Registration failed');
+      }
+
+      return data.data;
+    } catch (error) {
+      console.error('Error registering user:', error);
+      throw error;
+    }
+  }
 }
 
 export const apiService = new ApiService();
