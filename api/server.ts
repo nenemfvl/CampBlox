@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { Pool } from 'pg';
+import { sendVerificationEmail, generateVerificationToken } from './emailService';
 
 // Carregar variáveis de ambiente
 dotenv.config();
@@ -363,17 +364,31 @@ app.post('/api/register', async (req, res) => {
     // Hash da senha (em produção, use bcrypt)
     const passwordHash = Buffer.from(password).toString('base64');
 
+    // Gerar token de verificação
+    const verificationToken = generateVerificationToken();
+    const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 horas
+
     // Inserir novo usuário
     const result = await pool.query(
-      `INSERT INTO users (username, email, password_hash, points, wins, games_played, created_at) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7) 
+      `INSERT INTO users (username, email, password_hash, points, wins, games_played, created_at, email_verified, verification_token, verification_token_expires) 
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
        RETURNING id, username, email, points, wins, games_played, created_at`,
-      [username, email, passwordHash, 0, 0, 0, new Date()]
+      [username, email, passwordHash, 0, 0, 0, new Date(), false, verificationToken, verificationExpires]
     );
+
+    // Enviar email de verificação
+    const emailResult = await sendVerificationEmail(email, verificationToken);
+    
+    if (!emailResult.success) {
+      console.error('Erro ao enviar email de verificação:', emailResult.error);
+      // Não falhar o registro se o email não for enviado
+    }
 
     res.status(201).json({
       success: true,
-      message: 'Usuário registrado com sucesso',
+      message: emailResult.success 
+        ? 'Usuário registrado com sucesso! Verifique seu email para ativar sua conta.'
+        : 'Usuário registrado com sucesso! Verifique seu email para ativar sua conta.',
       data: {
         id: result.rows[0].id.toString(),
         username: result.rows[0].username,
@@ -381,12 +396,72 @@ app.post('/api/register', async (req, res) => {
         points: result.rows[0].points,
         wins: result.rows[0].wins,
         games_played: result.rows[0].games_played,
-        created_at: result.rows[0].created_at
+        created_at: result.rows[0].created_at,
+        email_verified: false
       }
     });
 
   } catch (error) {
     console.error('Erro ao registrar usuário:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Erro interno do servidor'
+    });
+  }
+});
+
+// GET /api/verify-email - Verificar email do usuário
+app.get('/api/verify-email', async (req, res) => {
+  try {
+    const { token } = req.query;
+
+    if (!token) {
+      return res.status(400).json({
+        success: false,
+        message: 'Token de verificação é obrigatório'
+      });
+    }
+
+    // Buscar usuário pelo token
+    const userResult = await pool.query(
+      'SELECT id, username, email, verification_token_expires FROM users WHERE verification_token = $1',
+      [token]
+    );
+
+    if (userResult.rows.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Token de verificação inválido'
+      });
+    }
+
+    const user = userResult.rows[0];
+
+    // Verificar se o token não expirou
+    if (new Date() > new Date(user.verification_token_expires)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Token de verificação expirado'
+      });
+    }
+
+    // Marcar email como verificado
+    await pool.query(
+      'UPDATE users SET email_verified = true, verification_token = NULL, verification_token_expires = NULL WHERE id = $1',
+      [user.id]
+    );
+
+    res.json({
+      success: true,
+      message: 'Email verificado com sucesso! Sua conta foi ativada.',
+      data: {
+        username: user.username,
+        email: user.email
+      }
+    });
+
+  } catch (error) {
+    console.error('Erro ao verificar email:', error);
     res.status(500).json({
       success: false,
       message: 'Erro interno do servidor'
