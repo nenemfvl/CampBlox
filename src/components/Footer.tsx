@@ -1,4 +1,5 @@
 import Link from 'next/link'
+// Fixed Discord icon import issue
 import { Trophy, Twitter, Instagram, Youtube, MessageCircle } from 'lucide-react'
 
 export default function Footer() {
