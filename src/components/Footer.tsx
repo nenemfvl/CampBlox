@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Trophy, Twitter, Instagram, Youtube, Discord } from 'lucide-react'
+import { Trophy, Twitter, Instagram, Youtube, MessageCircle } from 'lucide-react'
 
 export default function Footer() {
   return (
@@ -27,7 +27,7 @@ export default function Footer() {
                 <Youtube className="h-5 w-5" />
               </a>
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                <Discord className="h-5 w-5" />
+                <MessageCircle className="h-5 w-5" />
               </a>
             </div>
           </div>
