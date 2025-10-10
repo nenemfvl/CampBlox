@@ -36,28 +36,28 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white dark:bg-gray-800 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
             <div className="p-6">
-              <Users className="h-12 w-12 text-purple-600 mx-auto mb-4" />
-              <div className="text-3xl font-bold text-gray-900 mb-2">2,500+</div>
-              <div className="text-gray-600">Jogadores Ativos</div>
+              <Users className="h-12 w-12 text-purple-600 dark:text-purple-400 mx-auto mb-4" />
+              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">2,500+</div>
+              <div className="text-gray-600 dark:text-gray-300">Jogadores Ativos</div>
             </div>
             <div className="p-6">
-              <Trophy className="h-12 w-12 text-purple-600 mx-auto mb-4" />
-              <div className="text-3xl font-bold text-gray-900 mb-2">150+</div>
-              <div className="text-gray-600">Campeonatos</div>
+              <Trophy className="h-12 w-12 text-purple-600 dark:text-purple-400 mx-auto mb-4" />
+              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">150+</div>
+              <div className="text-gray-600 dark:text-gray-300">Campeonatos</div>
             </div>
             <div className="p-6">
-              <Award className="h-12 w-12 text-purple-600 mx-auto mb-4" />
-              <div className="text-3xl font-bold text-gray-900 mb-2">R$ 50K+</div>
-              <div className="text-gray-600">Em Prêmios</div>
+              <Award className="h-12 w-12 text-purple-600 dark:text-purple-400 mx-auto mb-4" />
+              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">R$ 50K+</div>
+              <div className="text-gray-600 dark:text-gray-300">Em Prêmios</div>
             </div>
             <div className="p-6">
-              <Star className="h-12 w-12 text-purple-600 mx-auto mb-4" />
-              <div className="text-3xl font-bold text-gray-900 mb-2">4.9/5</div>
-              <div className="text-gray-600">Avaliação</div>
+              <Star className="h-12 w-12 text-purple-600 dark:text-purple-400 mx-auto mb-4" />
+              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">4.9/5</div>
+              <div className="text-gray-600 dark:text-gray-300">Avaliação</div>
             </div>
           </div>
         </div>

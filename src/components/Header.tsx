@@ -2,11 +2,13 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { Menu, X, Trophy, User, LogIn } from 'lucide-react'
+import { Menu, X, Trophy, User, LogIn, Sun, Moon } from 'lucide-react'
+import { useTheme } from '@/contexts/ThemeContext'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const { theme, toggleTheme } = useTheme()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,16 +24,24 @@ export default function Header() {
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200' 
-          : 'bg-gradient-to-r from-purple-600 to-blue-600 shadow-lg'
+          ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg border-b border-gray-200 dark:border-gray-700' 
+          : 'bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-800 dark:to-blue-800 shadow-lg'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <Trophy className={`h-8 w-8 transition-colors ${isScrolled ? 'text-purple-600' : 'text-white'}`} />
-            <span className={`text-2xl font-bold transition-colors ${isScrolled ? 'text-gray-900' : 'text-white'}`}>
+            <Trophy className={`h-8 w-8 transition-colors ${
+              isScrolled 
+                ? 'text-purple-600 dark:text-purple-400' 
+                : 'text-white'
+            }`} />
+            <span className={`text-2xl font-bold transition-colors ${
+              isScrolled 
+                ? 'text-gray-900 dark:text-white' 
+                : 'text-white'
+            }`}>
               CampBlox
             </span>
           </Link>
@@ -42,7 +52,7 @@ export default function Header() {
               href="/" 
               className={`transition-colors ${
                 isScrolled 
-                  ? 'text-gray-700 hover:text-purple-600' 
+                  ? 'text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400' 
                   : 'text-white hover:text-purple-200'
               }`}
             >
@@ -52,7 +62,7 @@ export default function Header() {
               href="/tournaments" 
               className={`transition-colors ${
                 isScrolled 
-                  ? 'text-gray-700 hover:text-purple-600' 
+                  ? 'text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400' 
                   : 'text-white hover:text-purple-200'
               }`}
             >
@@ -62,7 +72,7 @@ export default function Header() {
               href="/games" 
               className={`transition-colors ${
                 isScrolled 
-                  ? 'text-gray-700 hover:text-purple-600' 
+                  ? 'text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400' 
                   : 'text-white hover:text-purple-200'
               }`}
             >
@@ -72,7 +82,7 @@ export default function Header() {
               href="/ranking" 
               className={`transition-colors ${
                 isScrolled 
-                  ? 'text-gray-700 hover:text-purple-600' 
+                  ? 'text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400' 
                   : 'text-white hover:text-purple-200'
               }`}
             >
@@ -82,16 +92,28 @@ export default function Header() {
 
           {/* User Actions */}
           <div className="hidden md:flex items-center space-x-4">
+            {/* Theme Toggle */}
+            <button 
+              onClick={toggleTheme}
+              className={`p-2 rounded-lg transition-colors ${
+                isScrolled 
+                  ? 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800' 
+                  : 'text-white hover:bg-white/20'
+              }`}
+            >
+              {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+            </button>
+            
             <button className={`transition-colors ${
               isScrolled 
-                ? 'text-gray-700 hover:text-purple-600' 
+                ? 'text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400' 
                 : 'text-white hover:text-purple-200'
             }`}>
               <User className="h-5 w-5" />
             </button>
             <button className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               isScrolled 
-                ? 'bg-purple-600 text-white hover:bg-purple-700' 
+                ? 'bg-purple-600 dark:bg-purple-700 text-white hover:bg-purple-700 dark:hover:bg-purple-600' 
                 : 'bg-white text-purple-600 hover:bg-purple-50'
             }`}>
               <LogIn className="h-4 w-4 inline mr-2" />
@@ -102,7 +124,7 @@ export default function Header() {
           {/* Mobile menu button */}
           <button
             className={`md:hidden transition-colors ${
-              isScrolled ? 'text-gray-700' : 'text-white'
+              isScrolled ? 'text-gray-700 dark:text-gray-300' : 'text-white'
             }`}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
@@ -113,14 +135,14 @@ export default function Header() {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className={`md:hidden pb-4 transition-colors ${
-            isScrolled ? 'bg-white/95 backdrop-blur-md' : ''
+            isScrolled ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md' : ''
           }`}>
             <nav className="flex flex-col space-y-4">
               <Link 
                 href="/" 
                 className={`transition-colors ${
                   isScrolled 
-                    ? 'text-gray-700 hover:text-purple-600' 
+                    ? 'text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400' 
                     : 'text-white hover:text-purple-200'
                 }`}
               >
@@ -130,7 +152,7 @@ export default function Header() {
                 href="/tournaments" 
                 className={`transition-colors ${
                   isScrolled 
-                    ? 'text-gray-700 hover:text-purple-600' 
+                    ? 'text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400' 
                     : 'text-white hover:text-purple-200'
                 }`}
               >
@@ -140,7 +162,7 @@ export default function Header() {
                 href="/games" 
                 className={`transition-colors ${
                   isScrolled 
-                    ? 'text-gray-700 hover:text-purple-600' 
+                    ? 'text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400' 
                     : 'text-white hover:text-purple-200'
                 }`}
               >
@@ -150,18 +172,31 @@ export default function Header() {
                 href="/ranking" 
                 className={`transition-colors ${
                   isScrolled 
-                    ? 'text-gray-700 hover:text-purple-600' 
+                    ? 'text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400' 
                     : 'text-white hover:text-purple-200'
                 }`}
               >
                 Ranking
               </Link>
               <div className={`pt-4 border-t ${
-                isScrolled ? 'border-gray-200' : 'border-purple-400'
+                isScrolled ? 'border-gray-200 dark:border-gray-700' : 'border-purple-400'
               }`}>
+                {/* Theme Toggle Mobile */}
+                <button 
+                  onClick={toggleTheme}
+                  className={`w-full text-left transition-colors mb-2 ${
+                    isScrolled 
+                      ? 'text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400' 
+                      : 'text-white hover:text-purple-200'
+                  }`}
+                >
+                  {theme === 'light' ? <Moon className="h-4 w-4 inline mr-2" /> : <Sun className="h-4 w-4 inline mr-2" />}
+                  {theme === 'light' ? 'Modo Escuro' : 'Modo Claro'}
+                </button>
+                
                 <button className={`w-full text-left transition-colors mb-2 ${
                   isScrolled 
-                    ? 'text-gray-700 hover:text-purple-600' 
+                    ? 'text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400' 
                     : 'text-white hover:text-purple-200'
                 }`}>
                   <User className="h-4 w-4 inline mr-2" />
@@ -169,7 +204,7 @@ export default function Header() {
                 </button>
                 <button className={`w-full px-4 py-2 rounded-lg font-medium transition-colors ${
                   isScrolled 
-                    ? 'bg-purple-600 text-white hover:bg-purple-700' 
+                    ? 'bg-purple-600 dark:bg-purple-700 text-white hover:bg-purple-700 dark:hover:bg-purple-600' 
                     : 'bg-white text-purple-600 hover:bg-purple-50'
                 }`}>
                   <LogIn className="h-4 w-4 inline mr-2" />
