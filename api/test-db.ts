@@ -35,7 +35,7 @@ async function testConnection() {
     }
     
   } catch (error) {
-    console.error('❌ Erro na conexão:', error.message);
+    console.error('❌ Erro na conexão:', error instanceof Error ? error.message : 'Erro desconhecido');
   } finally {
     await pool.end();
   }
