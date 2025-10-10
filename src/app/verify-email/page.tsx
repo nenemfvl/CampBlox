@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 import { CheckCircle, XCircle, Mail, Loader2 } from 'lucide-react'
 
 export default function VerifyEmailPage() {
@@ -83,18 +84,18 @@ export default function VerifyEmailPage() {
               </div>
               
               <div className="space-y-4">
-                <a
+                <Link
                   href="/login"
                   className="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-purple-700 transition-colors inline-block"
                 >
                   Fazer Login
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/"
                   className="w-full bg-gray-700 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-600 transition-colors inline-block"
                 >
                   Ir para o Início
-                </a>
+                </Link>
               </div>
             </div>
           )}
@@ -112,18 +113,18 @@ export default function VerifyEmailPage() {
               </div>
               
               <div className="space-y-4">
-                <a
+                <Link
                   href="/register"
                   className="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-purple-700 transition-colors inline-block"
                 >
                   Criar Nova Conta
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/"
                   className="w-full bg-gray-700 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-600 transition-colors inline-block"
                 >
                   Ir para o Início
-                </a>
+                </Link>
               </div>
             </div>
           )}
