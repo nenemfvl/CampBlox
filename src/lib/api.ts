@@ -37,8 +37,6 @@ export interface ApiResponse<T> {
 class ApiService {
   private async fetchData<T>(endpoint: string): Promise<T> {
     try {
-      console.log(`🔗 Fazendo requisição para: ${API_BASE_URL}${endpoint}`);
-      
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'GET',
         headers: {
@@ -48,15 +46,11 @@ class ApiService {
         next: { revalidate: 300 }
       });
 
-      console.log(`📊 Status da resposta: ${response.status}`);
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data: ApiResponse<T> = await response.json();
-      
-      console.log(`✅ Dados recebidos:`, data);
       
       if (!data.success) {
         throw new Error(data.message || 'API request failed');
@@ -64,7 +58,7 @@ class ApiService {
 
       return data.data;
     } catch (error) {
-      console.error(`❌ Erro ao buscar ${endpoint}:`, error);
+      console.error(`Error fetching ${endpoint}:`, error);
       throw error;
     }
   }
