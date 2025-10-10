@@ -27,6 +27,20 @@ export default function RegisterPage() {
     setError('')
 
     // Validações básicas
+    if (formData.username.length < 3) {
+      setError('Nome de usuário deve ter pelo menos 3 caracteres')
+      setLoading(false)
+      return
+    }
+
+    // Validar formato do email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError('Formato de email inválido')
+      setLoading(false)
+      return
+    }
+
     if (formData.password !== formData.confirmPassword) {
       setError('As senhas não coincidem')
       setLoading(false)

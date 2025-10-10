@@ -323,6 +323,23 @@ app.post('/api/register', async (req, res) => {
       });
     }
 
+    // Validar formato do email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Formato de email inválido'
+      });
+    }
+
+    // Validar nome de usuário
+    if (username.length < 3) {
+      return res.status(400).json({
+        success: false,
+        message: 'Nome de usuário deve ter pelo menos 3 caracteres'
+      });
+    }
+
     if (password.length < 6) {
       return res.status(400).json({
         success: false,
