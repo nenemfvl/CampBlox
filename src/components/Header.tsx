@@ -8,7 +8,24 @@ import { useTheme } from '@/contexts/ThemeContext'
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const { theme, toggleTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  
+  // Safe theme access
+  let theme: 'light' | 'dark' = 'light'
+  let toggleTheme: () => void = () => {}
+  
+  try {
+    const themeContext = useTheme()
+    theme = themeContext.theme
+    toggleTheme = themeContext.toggleTheme
+  } catch (error) {
+    // ThemeProvider not available during SSR
+    console.warn('ThemeProvider not available during SSR')
+  }
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -93,16 +110,18 @@ export default function Header() {
           {/* User Actions */}
           <div className="hidden md:flex items-center space-x-4">
             {/* Theme Toggle */}
-            <button 
-              onClick={toggleTheme}
-              className={`p-2 rounded-lg transition-colors ${
-                isScrolled 
-                  ? 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800' 
-                  : 'text-white hover:bg-white/20'
-              }`}
-            >
-              {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
-            </button>
+            {mounted && (
+              <button 
+                onClick={toggleTheme}
+                className={`p-2 rounded-lg transition-colors ${
+                  isScrolled 
+                    ? 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800' 
+                    : 'text-white hover:bg-white/20'
+                }`}
+              >
+                {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+              </button>
+            )}
             
             <button className={`transition-colors ${
               isScrolled 
@@ -182,17 +201,19 @@ export default function Header() {
                 isScrolled ? 'border-gray-200 dark:border-gray-700' : 'border-purple-400'
               }`}>
                 {/* Theme Toggle Mobile */}
-                <button 
-                  onClick={toggleTheme}
-                  className={`w-full text-left transition-colors mb-2 ${
-                    isScrolled 
-                      ? 'text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400' 
-                      : 'text-white hover:text-purple-200'
-                  }`}
-                >
-                  {theme === 'light' ? <Moon className="h-4 w-4 inline mr-2" /> : <Sun className="h-4 w-4 inline mr-2" />}
-                  {theme === 'light' ? 'Modo Escuro' : 'Modo Claro'}
-                </button>
+                {mounted && (
+                  <button 
+                    onClick={toggleTheme}
+                    className={`w-full text-left transition-colors mb-2 ${
+                      isScrolled 
+                        ? 'text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400' 
+                        : 'text-white hover:text-purple-200'
+                    }`}
+                  >
+                    {theme === 'light' ? <Moon className="h-4 w-4 inline mr-2" /> : <Sun className="h-4 w-4 inline mr-2" />}
+                    {theme === 'light' ? 'Modo Escuro' : 'Modo Claro'}
+                  </button>
+                )}
                 
                 <button className={`w-full text-left transition-colors mb-2 ${
                   isScrolled 
