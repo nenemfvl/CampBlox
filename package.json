@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "api:dev": "nodemon api/server.ts",
-    "api:build": "tsc",
+    "api:build": "tsc --project tsconfig.api.json",
     "api:start": "node dist/api/server.js",
     "api:init-db": "ts-node api/init-db.ts",
     "api:test-db": "ts-node api/test-db.ts"
