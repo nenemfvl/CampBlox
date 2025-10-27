@@ -1,14 +1,15 @@
-# 🎮 CampBlox - Campeonatos de Roblox
+# ♾️ Infinity Guild - Dominando Todos os Mundos Digitais
 
-A plataforma definitiva para campeonatos de jogos do Roblox. Conecte-se com jogadores, participe de torneios épicos e mostre suas habilidades na maior plataforma de campeonatos do Roblox.
+Uma guild global unida por uma só missão: dominar todos os mundos digitais. Junte-se à maior comunidade de jogadores profissionais.
 
 ## ✨ Funcionalidades
 
-- 🏆 **Campeonatos Ativos**: Participe de torneios dos jogos mais populares do Roblox
-- 🎮 **Jogos Suportados**: Arsenal, Blox Fruits, Adopt Me, Jailbreak e muito mais
+- 🏆 **Eventos e Campeonatos**: Participe de torneios dos jogos mais populares
+- 🎮 **Jogos Suportados**: Raven 2, Legend of Ymir, Albion Online, Guild Wars 2, Mir4 e muito mais
 - 📊 **Ranking Global**: Veja os melhores jogadores e suas conquistas
-- 🏅 **Sistema de Prêmios**: Ganhe prêmios reais competindo
+- 🏅 **Sistema de NFTs**: Ganhe NFTs exclusivos competindo
 - 👥 **Comunidade Ativa**: Conecte-se com outros jogadores
+- 💎 **Divisões**: Participe das divisões de cada jogo
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -23,7 +24,7 @@ A plataforma definitiva para campeonatos de jogos do Roblox. Conecte-se com joga
 1. Clone o repositório:
 ```bash
 git clone https://github.com/nenemfvl/CampBlox.git
-cd CampBlox
+cd campblox
 ```
 
 2. Instale as dependências:
@@ -31,18 +32,23 @@ cd CampBlox
 npm install
 ```
 
-3. Execute o projeto:
+3. Configure as variáveis de ambiente:
+```bash
+cp env.example .env.local
+```
+
+4. Execute o projeto:
 ```bash
 npm run dev
 ```
 
-4. Acesse [http://localhost:3000](http://localhost:3000)
+5. Acesse [http://localhost:3000](http://localhost:3000)
 
 ## 📱 Páginas Disponíveis
 
-- **/** - Página inicial com campeonatos em destaque
-- **/tournaments** - Lista de todos os campeonatos
-- **/games** - Jogos suportados na plataforma
+- **/** - Home da Infinity Guild
+- **/games** - Members e jogos
+- **/tournaments** - Events e campeonatos
 - **/ranking** - Ranking global de jogadores
 
 ## 🎯 Funcionalidades Implementadas
@@ -58,10 +64,10 @@ npm run dev
 
 ## 🚀 Próximas Funcionalidades
 
-- [ ] Página de detalhes do campeonato
-- [ ] Sistema de inscrição em campeonatos
-- [ ] Integração com API do Roblox
-- [ ] Sistema de pagamentos
+- [ ] Dashboard de membros
+- [ ] Sistema de inscrição em eventos
+- [ ] Integração com Discord
+- [ ] Sistema de NFTs
 - [ ] Chat em tempo real
 
 ## 🤝 Contribuindo
@@ -81,8 +87,8 @@ Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para ma
 ## 📞 Contato
 
 - **GitHub**: [@nenemfvl](https://github.com/nenemfvl)
-- **Projeto**: [CampBlox](https://github.com/nenemfvl/CampBlox)
+- **Projeto**: [Infinity Guild](https://github.com/nenemfvl/CampBlox)
 
 ---
 
-Feito com ❤️ para a comunidade Roblox
+Feito com ♾️ para a Infinity Guild
