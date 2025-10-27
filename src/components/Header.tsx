@@ -64,37 +64,42 @@ export default function Header() {
         <div className="flex justify-between items-center py-4">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <Trophy className="h-8 w-8 text-white" />
-            <span className="text-2xl font-bold text-white">
-              CampBlox
-            </span>
+            <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-lg flex items-center justify-center">
+              <span className="text-2xl font-bold text-white">N</span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             <Link 
               href="/" 
-              className="text-white hover:text-purple-200 transition-colors"
+              className="text-white hover:text-cyan-400 transition-colors"
             >
-              Início
-            </Link>
-            <Link 
-              href="/tournaments" 
-              className="text-white hover:text-purple-200 transition-colors"
-            >
-              Campeonatos
+              Home
             </Link>
             <Link 
               href="/games" 
-              className="text-white hover:text-purple-200 transition-colors"
+              className="text-white hover:text-cyan-400 transition-colors"
             >
-              Jogos
+              Members
             </Link>
             <Link 
-              href="/ranking" 
-              className="text-white hover:text-purple-200 transition-colors"
+              href="/tournaments" 
+              className="text-white hover:text-cyan-400 transition-colors"
             >
-              Ranking
+              Events
+            </Link>
+            <Link 
+              href="/games" 
+              className="text-white hover:text-cyan-400 transition-colors"
+            >
+              NFTs
+            </Link>
+            <Link 
+              href="/rules" 
+              className="text-white hover:text-cyan-400 transition-colors"
+            >
+              Blog
             </Link>
           </nav>
 
@@ -109,6 +114,14 @@ export default function Header() {
                 {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
               </button>
             )}
+            
+            {/* Dashboard Button */}
+            <Link
+              href="/profile"
+              className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+            >
+              Dashboard
+            </Link>
             
             {user ? (
               /* User Menu */
@@ -157,11 +170,11 @@ export default function Header() {
                   </div>
                 )}
               </div>
-            ) : (
+                ) : (
               /* Login Button */
               <Link 
                 href="/login"
-                className="bg-white text-purple-600 px-4 py-2 rounded-lg font-medium hover:bg-purple-50 transition-colors"
+                className="bg-cyan-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-cyan-700 transition-colors"
               >
                 <LogIn className="h-4 w-4 inline mr-2" />
                 Entrar
@@ -178,33 +191,39 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+          {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden pb-4">
             <nav className="flex flex-col space-y-4">
               <Link 
                 href="/" 
-                className="text-white hover:text-purple-200 transition-colors"
+                className="text-white hover:text-cyan-400 transition-colors"
               >
-                Início
-              </Link>
-              <Link 
-                href="/tournaments" 
-                className="text-white hover:text-purple-200 transition-colors"
-              >
-                Campeonatos
+                Home
               </Link>
               <Link 
                 href="/games" 
-                className="text-white hover:text-purple-200 transition-colors"
+                className="text-white hover:text-cyan-400 transition-colors"
               >
-                Jogos
+                Members
               </Link>
               <Link 
-                href="/ranking" 
-                className="text-white hover:text-purple-200 transition-colors"
+                href="/tournaments" 
+                className="text-white hover:text-cyan-400 transition-colors"
               >
-                Ranking
+                Events
+              </Link>
+              <Link 
+                href="/games" 
+                className="text-white hover:text-cyan-400 transition-colors"
+              >
+                NFTs
+              </Link>
+              <Link 
+                href="/rules" 
+                className="text-white hover:text-cyan-400 transition-colors"
+              >
+                Blog
               </Link>
               <div className="pt-4 border-t border-purple-400">
                 {/* Theme Toggle Mobile */}

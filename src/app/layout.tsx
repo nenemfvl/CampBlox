@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CampBlox - Campeonatos de Roblox",
-  description: "A plataforma definitiva para campeonatos de jogos do Roblox. Conecte-se com jogadores, participe de torneios e mostre suas habilidades.",
+  title: "Infinity Guild - Dominando Todos os Mundos Digitais",
+  description: "Uma guild global unida por uma só missão: dominar todos os mundos digitais. Junte-se à maior comunidade de jogadores profissionais.",
 };
 
 export default function RootLayout({
