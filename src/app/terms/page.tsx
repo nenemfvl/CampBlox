@@ -13,7 +13,7 @@ export default function TermsPage() {
             <div>
               <h3 className="text-xl font-semibold text-white mb-2">1. Aceitação dos Termos</h3>
               <p className="text-gray-300">
-                Ao usar o CampBlox, você concorda em cumprir estes termos de uso e todas as regras da plataforma.
+                Ao usar a Infinity Guild, você concorda em cumprir estes termos de uso e todas as regras da plataforma.
               </p>
             </div>
             
@@ -34,7 +34,7 @@ export default function TermsPage() {
             <div>
               <h3 className="text-xl font-semibold text-white mb-2">4. Propriedade Intelectual</h3>
               <p className="text-gray-300">
-                Todo o conteúdo da plataforma é propriedade do CampBlox e está protegido por leis de direitos autorais.
+                Todo o conteúdo da plataforma é propriedade da Infinity Guild e está protegido por leis de direitos autorais.
               </p>
             </div>
             
@@ -48,7 +48,7 @@ export default function TermsPage() {
             <div>
               <h3 className="text-xl font-semibold text-white mb-2">6. Limitação de Responsabilidade</h3>
               <p className="text-gray-300">
-                O CampBlox não se responsabiliza por perdas ou danos decorrentes do uso da plataforma.
+                A Infinity Guild não se responsabiliza por perdas ou danos decorrentes do uso da plataforma.
               </p>
             </div>
           </div>

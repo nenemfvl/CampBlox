@@ -101,7 +101,7 @@ export default function RegisterPage() {
             Criar Conta
           </h2>
           <p className="mt-2 text-center text-sm text-gray-400">
-            Junte-se à comunidade CampBlox
+            Junte-se à Infinity Guild
           </p>
         </div>
 

@@ -21,18 +21,18 @@ export const sendVerificationEmail = async (email: string, verificationToken: st
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
-      subject: 'Verifique sua conta CampBlox',
+      subject: 'Verifique sua conta Infinity Guild',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
-            <h1 style="color: white; margin: 0; font-size: 28px;">🎮 CampBlox</h1>
+            <h1 style="color: white; margin: 0; font-size: 28px;">♾️ Infinity</h1>
             <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Verificação de Email</p>
           </div>
           
           <div style="padding: 30px; background: #f9f9f9;">
             <h2 style="color: #333; margin-top: 0;">Olá!</h2>
             <p style="color: #666; line-height: 1.6;">
-              Obrigado por se cadastrar no CampBlox! Para completar seu registro e começar a participar dos campeonatos, 
+              Obrigado por se cadastrar na Infinity Guild! Para completar seu registro e começar a participar dos eventos, 
               clique no botão abaixo para verificar seu email:
             </p>
             
@@ -51,7 +51,7 @@ export const sendVerificationEmail = async (email: string, verificationToken: st
             <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
             
             <p style="color: #999; font-size: 12px; text-align: center;">
-              Este email foi enviado automaticamente. Se você não se cadastrou no CampBlox, pode ignorar este email.
+              Este email foi enviado automaticamente. Se você não se cadastrou na Infinity Guild, pode ignorar este email.
             </p>
           </div>
         </div>

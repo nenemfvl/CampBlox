@@ -11,7 +11,7 @@ export default function DiscordPage() {
           
           <div className="text-center">
             <div className="bg-purple-600 p-8 rounded-xl mb-6">
-              <h3 className="text-2xl font-bold text-white mb-4">CampBlox Discord</h3>
+              <h3 className="text-2xl font-bold text-white mb-4">Infinity Guild Discord</h3>
               <p className="text-purple-100 mb-6">
                 Mais de 10.000 membros ativos
               </p>

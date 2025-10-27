@@ -42,7 +42,7 @@ export default function LoginPage() {
         <div className="text-center">
           <Link href="/" className="flex items-center justify-center space-x-2 mb-6">
             <Trophy className="h-12 w-12 text-purple-400" />
-            <span className="text-3xl font-bold text-white">CampBlox</span>
+            <span className="text-3xl font-bold text-white">Infinity</span>
           </Link>
           <h2 className="text-3xl font-bold text-white">
             Entre na sua conta

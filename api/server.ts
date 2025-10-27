@@ -473,7 +473,7 @@ app.get('/api/verify-email', async (req, res) => {
 app.get('/api/health', (req, res) => {
   res.json({
     success: true,
-    message: 'CampBlox API está funcionando!',
+    message: 'Infinity Guild API está funcionando!',
     timestamp: new Date().toISOString()
   });
 });
@@ -518,7 +518,7 @@ app.get('/api/test-db', async (req, res) => {
 
 // Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor CampBlox rodando na porta ${PORT}`);
+  console.log(`🚀 Servidor Infinity Guild rodando na porta ${PORT}`);
   console.log(`📊 API disponível em: http://localhost:${PORT}/api`);
 });
 

@@ -17,7 +17,7 @@ export default function ContactPage() {
                   <strong>Email:</strong> contato@campblox.com
                 </p>
                 <p className="text-gray-300">
-                  <strong>Discord:</strong> CampBlox#1234
+                  <strong>Discord:</strong> Infinity#1234
                 </p>
                 <p className="text-gray-300">
                   <strong>Suporte:</strong> 24/7

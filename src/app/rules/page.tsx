@@ -4,7 +4,7 @@ export default function RulesPage() {
       <div className="max-w-4xl mx-auto px-4 py-16">
         <h1 className="text-4xl font-bold text-white mb-8">Regras</h1>
         <div className="bg-gray-800 p-8 rounded-xl">
-          <h2 className="text-2xl font-bold text-white mb-4">Regras do CampBlox</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">Regras da Infinity Guild</h2>
           <p className="text-gray-300 mb-6">
             Para manter um ambiente saudável e justo para todos os jogadores.
           </p>
