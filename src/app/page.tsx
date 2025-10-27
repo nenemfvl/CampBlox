@@ -9,17 +9,17 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center text-center mb-12">
             {/* Infinity Symbol */}
-            <div className="text-8xl mb-4 text-cyan-400">
+            <div className="text-8xl mb-4 text-cyan-400 animate-pulse">
               ♾️
             </div>
             
             {/* Title */}
-            <h1 className="text-6xl md:text-7xl font-bold mb-6 tracking-wide">
+            <h1 className="text-6xl md:text-7xl font-bold mb-6 tracking-wide text-white">
               INFINITY
             </h1>
             
             {/* Subtitle */}
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-200">
               Nós somos Infinity
             </h2>
             
@@ -31,31 +31,31 @@ export default function Home() {
           {/* Game Cards Section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-5xl mx-auto">
             {/* Raven 2 Card */}
-            <div className="bg-gray-800 rounded-xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 border border-gray-700">
+            <div className="bg-gray-800 rounded-xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 border border-gray-700 cursor-pointer">
               <div className="h-64 bg-gradient-to-br from-purple-600 to-pink-700 flex items-center justify-center">
                 <Gamepad2 className="h-24 w-24 text-white opacity-30" />
               </div>
-              <div className="p-4">
+              <div className="p-4 bg-gray-800">
                 <h3 className="text-2xl font-bold text-white">Raven 2</h3>
               </div>
             </div>
 
             {/* Legend of Ymir Card */}
-            <div className="bg-gray-800 rounded-xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 border border-gray-700">
+            <div className="bg-gray-800 rounded-xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 border border-gray-700 cursor-pointer">
               <div className="h-64 bg-gradient-to-br from-amber-600 to-orange-700 flex items-center justify-center">
                 <Gamepad2 className="h-24 w-24 text-white opacity-30" />
               </div>
-              <div className="p-4">
+              <div className="p-4 bg-gray-800">
                 <h3 className="text-2xl font-bold text-white">Legend of Ymir</h3>
               </div>
             </div>
 
             {/* Albion Online Card */}
-            <div className="bg-gray-800 rounded-xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 border border-gray-700">
+            <div className="bg-gray-800 rounded-xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300 border border-gray-700 cursor-pointer">
               <div className="h-64 bg-gradient-to-br from-blue-600 to-cyan-700 flex items-center justify-center">
                 <Gamepad2 className="h-24 w-24 text-white opacity-30" />
               </div>
-              <div className="p-4">
+              <div className="p-4 bg-gray-800">
                 <h3 className="text-2xl font-bold text-white">Albion Online</h3>
               </div>
             </div>
@@ -66,10 +66,10 @@ export default function Home() {
             <button className="bg-cyan-600 hover:bg-cyan-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:transform hover:scale-105">
               Entrar na Guild
             </button>
-            <button className="bg-gray-800 hover:bg-gray-700 border border-cyan-600 text-cyan-400 px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300">
+            <button className="bg-transparent hover:bg-gray-800 border-2 border-cyan-600 text-cyan-400 px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300">
               Explorar Divisões
             </button>
-            <button className="bg-gray-800 hover:bg-gray-700 border border-cyan-600 text-cyan-400 px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300">
+            <button className="bg-transparent hover:bg-gray-800 border-2 border-cyan-600 text-cyan-400 px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300">
               Conectar com Discord
             </button>
           </div>
@@ -77,7 +77,7 @@ export default function Home() {
       </section>
 
       {/* Main Content Section */}
-      <section className="bg-gray-900 py-8">
+      <section className="bg-gray-900 py-8 min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Side - Statistics */}
@@ -134,13 +134,13 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right Side - Divisions */}
+            {/* Right Side - Divisions Sidebar */}
             <div className="lg:col-span-1">
               <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 sticky top-24">
                 <h2 className="text-2xl font-bold text-white mb-6">Divisões</h2>
                 <div className="space-y-4">
                   {/* Raven 2 */}
-                  <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+                  <div className="bg-gray-900 rounded-lg p-4 border border-gray-700 hover:border-cyan-500 transition-colors">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-700 rounded-lg flex items-center justify-center">
@@ -156,7 +156,7 @@ export default function Home() {
                   </div>
 
                   {/* Legend of Ymir */}
-                  <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+                  <div className="bg-gray-900 rounded-lg p-4 border border-gray-700 hover:border-cyan-500 transition-colors">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <div className="w-12 h-12 bg-gradient-to-br from-amber-600 to-orange-700 rounded-lg flex items-center justify-center">
@@ -172,7 +172,7 @@ export default function Home() {
                   </div>
 
                   {/* Albion Online */}
-                  <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+                  <div className="bg-gray-900 rounded-lg p-4 border border-gray-700 hover:border-cyan-500 transition-colors">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-cyan-700 rounded-lg flex items-center justify-center">
@@ -188,7 +188,7 @@ export default function Home() {
                   </div>
 
                   {/* Guild Wars 2 */}
-                  <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+                  <div className="bg-gray-900 rounded-lg p-4 border border-gray-700 hover:border-cyan-500 transition-colors">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-emerald-700 rounded-lg flex items-center justify-center">
@@ -204,7 +204,7 @@ export default function Home() {
                   </div>
 
                   {/* Mir4 */}
-                  <div className="bg-gray-900 rounded-lg p-4 border border-gray-700">
+                  <div className="bg-gray-900 rounded-lg p-4 border border-gray-700 hover:border-cyan-500 transition-colors">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <div className="w-12 h-12 bg-gradient-to-br from-red-600 to-rose-700 rounded-lg flex items-center justify-center">
