@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  robloxId      String?   @unique
+  balance       Float     @default(0)
+  
+  // Relations
+  familyId      String?
+  family        Family?   @relation(fields: [familyId], references: [id])
+  ledFamily     Family?   @relation("FamilyLeader")
+  
+  participations Participation[]
+  transactions   Transaction[]
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Family {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  image       String?
+  
+  leaderId    String   @unique
+  leader      User     @relation("FamilyLeader", fields: [leaderId], references: [id])
+  
+  members     User[]
+  
+  participations Participation[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Tournament {
+  id            String   @id @default(cuid())
+  title         String
+  description   String?
+  entryFee      Float
+  totalPrize    Float    @default(0)
+  status        String   @default("OPEN") // OPEN, IN_PROGRESS, FINISHED, CANCELLED
+  type          String   @default("SOLO") // SOLO, FAMILY
+  startDate     DateTime
+  
+  winnerUserId    String?
+  winnerFamilyId  String?
+  
+  participations Participation[]
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Participation {
+  id            String   @id @default(cuid())
+  tournamentId  String
+  tournament    Tournament @relation(fields: [tournamentId], references: [id])
+  
+  userId        String?
+  user          User?    @relation(fields: [userId], references: [id])
+  
+  familyId      String?
+  family        Family?  @relation(fields: [familyId], references: [id])
+  
+  paid          Boolean  @default(false)
+  
+  createdAt     DateTime @default(now())
+}
+
+model Transaction {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  amount      Float
+  type        String   // DEPOSIT, WITHDRAWAL, ENTRY_FEE, PRIZE_PAYOUT
+  description String?
+  status      String   @default("PENDING") // PENDING, COMPLETED, FAILED
+  
+  createdAt   DateTime @default(now())
+}
